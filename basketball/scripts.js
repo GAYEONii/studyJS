@@ -58,7 +58,7 @@ function updateAI(){
     var diff = user.score - computer.score;
 
     if(diff >= 10){
-        computer.percent2 = 0.7;
+        computer.percent2 = 0.8;
         computer.percent3 = 0.43;
     }
     else if(diff >= 6){
