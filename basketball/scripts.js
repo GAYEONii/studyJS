@@ -96,8 +96,8 @@ function onComputerShoot(){
 function updateUserScore(score){
     user.score += score;
 
-    var comScoreElem = document.getElementById('user-score');
-    comScoreElem.innerHTML = user.score;
+    var userScoreElem = document.getElementById('user-score');
+    userScoreElem.innerHTML = user.score;
 }
 
 //사용자
