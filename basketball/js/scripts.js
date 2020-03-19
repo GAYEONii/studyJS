@@ -21,8 +21,11 @@ var game = {
 function showText(s){
     //var textElem = document.getElementById('text');
     var $textElem = $('#text');
-    //textElem.innerHTML = s;
-    $textElem.html(s); 
+    $textElem.fadeOut(300,function(){
+        //textElem.innerHTML = s;
+        $textElem.html(s); 
+        $textElem.fadeIn(100);
+    }); //--->콜백함수 사용 (fadeOut,fadeIn이 비동기 함수이기 때문에)
 }
 
 //컴퓨터 점수 등록 함수
@@ -33,6 +36,8 @@ function updateComputerScore(score){
     var $comScoreElem = $('#computer-score');
     //comScoreElem.innerHTML = computer.score;
     $comScoreElem.html(computer.score);
+
+    $comScoreElem.animateNumber({ number: computer.score });
 }
 
 //컴퓨터 버튼 활성화 or 비활성화
@@ -55,7 +60,7 @@ function disableUserButtons(flag){
     $('.btn-user').prop('disabled',flag);
 }
 function updateAI(){
-    var diff = user.score - computer.score;
+    var diff = computer.score - user.score;
 
     if(diff >= 10){
         computer.percent2 = 0.8;
@@ -75,6 +80,23 @@ function updateAI(){
         computer.percent3 = 0.28;
     }
 }
+
+$(function(){
+    showText(3);
+
+    //setTimeout: 타이머가 만료된 뒤 함수나 지정된 코드를 실행하는 타이머를 설정
+    setTimeout(function(){
+        showText(2);
+        setTimeout(function(){
+            showText(1);
+            setTimeout(function(){
+                showText('컴퓨터부터 시작합니다.');
+                disableComputerButtons(false);
+            }, 1000);
+        }, 1000);
+    }, 1000);
+}); //$에 함수 형태를 넣어주면 제이쿼리는 그 함수를 'DOMContentLoaded 이벤트가 발생했을 때' 실행시켜 준다.
+
 
 //컴퓨터
 function onComputerShoot(){
@@ -106,6 +128,9 @@ function updateUserScore(score){
     var $userScoreElem = $('#user-score');
     //userScoreElem.innerHTML = user.score;
     $userScoreElem.html(user.score);
+    $userScoreElem.animateNumber({
+        number: user.score
+    });
 }
 
 //사용자
