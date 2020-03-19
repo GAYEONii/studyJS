@@ -19,34 +19,40 @@ var game = {
 
 //사용자 차례인지, 성공인지 실패인지 알려주는 텍스트 함수
 function showText(s){
-    var textElem = document.getElementById('text');
-    textElem.innerHTML = ('- '+s+' -');
+    //var textElem = document.getElementById('text');
+    var $textElem = $('#text');
+    //textElem.innerHTML = s;
+    $textElem.html(s); 
 }
 
 //컴퓨터 점수 등록 함수
 function updateComputerScore(score){
     computer.score += score;
 
-    var comScoreElem = document.getElementById('computer-score');
-    comScoreElem.innerHTML = computer.score;
+    //var comScoreElem = document.getElementById('computer-score');
+    var $comScoreElem = $('#computer-score');
+    //comScoreElem.innerHTML = computer.score;
+    $comScoreElem.html(computer.score);
 }
 
 //컴퓨터 버튼 활성화 or 비활성화
 function disableComputerButtons(flag){
-    var computerButtons = document.getElementsByClassName('btn-computer');
+    /*var computerButtons = document.getElementsByClassName('btn-computer');
 
     for(var i=0; i<computerButtons.length; i++){
         computerButtons[i].disabled = flag;
-    }
+    }*/
+    $('.btn-computer').prop('disabled',flag);
 }
 
 //사용자 버튼 활성화 or 비활성화
 function disableUserButtons(flag){
-    var userButtons = document.getElementsByClassName('btn-user');
+    /*var userButtons = document.getElementsByClassName('btn-user');
 
     for(var i=0; i<userButtons.length; i++){
         userButtons[i].disabled = flag;
-    }
+    }*/
+    $('.btn-user').prop('disabled',flag);
 }
 function updateAI(){
     var diff = user.score - computer.score;
@@ -96,8 +102,10 @@ function onComputerShoot(){
 function updateUserScore(score){
     user.score += score;
 
-    var comScoreElem = document.getElementById('user-score');
-    comScoreElem.innerHTML = user.score;
+    //var userScoreElem = document.getElementById('user-score');
+    var $userScoreElem = $('#user-score');
+    //userScoreElem.innerHTML = user.score;
+    $userScoreElem.html(user.score);
 }
 
 //사용자
@@ -121,8 +129,10 @@ function onUserShoot(shootType){
 
     game.shotsLeft--;
 
-    var shotsLeftElem = document.getElementById('shots-left');
-    shotsLeftElem.innerHTML = game.shotsLeft;
+    //var shotsLeftElem = document.getElementById('shots-left');
+    var $shotsLeftElem = $('#shots-left');
+    //shotsLeftElem.innerHTML = game.shotsLeft;
+    $shotsLeftElem.html(game.shotsLeft);
 
     if(game.shotsLeft===0){
         if(user.score > computer.score){
