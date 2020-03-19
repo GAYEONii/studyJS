@@ -1,7 +1,21 @@
-var comScore = 0;
-var userScore = 0;
-var isComputerTurn = true; //누구의 차례인지 정하는 변수
-var shotsLeft = 15; //남은 횟수
+var computer = {
+    score: 0,
+    percent2: 0.5,
+    percent3: 0.33
+};
+
+var user = {
+    score: 0,
+    percent2: 0.5,
+    percent3: 0.33
+};
+
+var game = {
+    //누구의 차례인지 정하는 변수
+    isComputerTurn: true, 
+    //남은 횟수
+    shotsLeft: 15 
+};
 
 //사용자 차례인지, 성공인지 실패인지 알려주는 텍스트 함수
 function showText(s){
@@ -11,14 +25,14 @@ function showText(s){
 
 //컴퓨터 점수 등록 함수
 function updateComputerScore(score){
-    comScore += score;
+    computer.score += score;
 
     var comScoreElem = document.getElementById('computer-score');
-    comScoreElem.innerHTML = comScore;
+    comScoreElem.innerHTML = computer.score;
 }
 
 //컴퓨터 버튼 활성화 or 비활성화
-function disableComputerButons(flag){
+function disableComputerButtons(flag){
     var computerButtons = document.getElementsByClassName('btn-computer');
 
     for(var i=0; i<computerButtons.length; i++){
@@ -34,91 +48,94 @@ function disableUserButtons(flag){
         userButtons[i].disabled = flag;
     }
 }
+function updateAI(){
+    var diff = user.score - computer.score;
 
-function onComputerShoot(){
-    if(!isComputerTurn) //컴퓨터 차례가 아니라면 return
-        return;
-
-    var shootType = Math.random() < 0.5 ? 2:3;
-    if(shootType === 2){
-        if(Math.random()<0.5){
-            showText('컴퓨터가 2점슛을 성공시켰습니다.');
-            updateComputerScore(2);
-        }
-        else{
-            showText('컴퓨터가 2점슛을 실패했습니다.');
-        }
+    if(diff >= 10){
+        computer.percent2 = 0.7;
+        computer.percent3 = 0.43;
     }
-    else{
-        if(Math.random()<0.33){
-            showText('컴퓨터가 3점슛을 성공시켰습니다.');
-            updateComputerScore(3);
-        }
-        else{
-            showText('컴퓨터가 3점슛을 실패했습니다.');
-        }
+    else if(diff >= 6){
+        computer.percent2 = 0.6;
+        computer.percent3 = 0.38;
     }
     
-    isComputerTurn = false;
+    else if(diff <= - 10){
+        computer.percent2 = 0.3;
+        computer.percent3 = 0.23;
+    }
+    else if(diff <= -6){
+        computer.percent2 = 0.4;
+        computer.percent3 = 0.28;
+    }
+}
 
-    disableComputerButons(true);
+//컴퓨터
+function onComputerShoot(){
+    if(!game.isComputerTurn) 
+        return; //컴퓨터 차례가 아니라면 return
+
+    updateAI();
+
+    var shootType = Math.random() < 0.5 ? 2:3;
+    if(Math.random()<computer['percent'+shootType]){
+        showText('컴퓨터가 '+shootType+'점슛을 성공시켰습니다.');
+        updateComputerScore(shootType);
+    }
+    else{
+        showText('컴퓨터가 '+shootType+'점슛을 실패했습니다.');
+    }
+    
+    game.isComputerTurn = false;
+
+    disableComputerButtons(true);
     disableUserButtons(false);
 }
 
 //사용자 점수 등록 함수
 function updateUserScore(score){
-    userScore += score;
+    user.score += score;
 
     var comScoreElem = document.getElementById('user-score');
-    comScoreElem.innerHTML = userScore;
+    comScoreElem.innerHTML = user.score;
 }
 
+//사용자
 function onUserShoot(shootType){
 
-    if(isComputerTurn)
+    if(game.isComputerTurn)
         return;
 
-    if(shootType === 2){
-        if(Math.random()<0.5){
-            showText('사용자가 2점슛을 성공시켰습니다.');
-            updateUserScore(2);
-        }
-        else{
-           showText('사용자가 2점슛을 실패했습니다.');
-        }
+    if(Math.random()<user['percent'+shootType]){
+        showText(shootType+'점슛이 성공했습니다.');
+        updateUserScore(shootType);
     }
     else{
-        if(Math.random()<0.33){
-            showText('사용자가 3점슛을 성공시켰습니다.');
-            updateUserScore(3);
-        }
-        else{
-            showText('사용자가 3점슛을 실패했습니다.');
-        }
+        showText(shootType+'점슛이 실패했습니다.');
     }
 
-    isComputerTurn = true;
+    game.isComputerTurn = true;
 
-    disableComputerButons(false);
+    disableComputerButtons(false);
     disableUserButtons(true);
 
-    shotsLeft--;
+    game.shotsLeft--;
 
     var shotsLeftElem = document.getElementById('shots-left');
-    shotsLeftElem.innerHTML = shotsLeft;
+    shotsLeftElem.innerHTML = game.shotsLeft;
 
-    if(shotsLeft===0){
-        if(userScore > comScore){
+    if(game.shotsLeft===0){
+        if(user.score > computer.score){
             showText('승리했습니다^^');
         }
-        else if(userScore < comScore){
+        else if(user.score < computer.score){
             showText('졌습니다 ㅠㅠ');
         }
         else{
             showText('비겼습니다.');
         }
 
-        disableComputerButons(true);
+        disableComputerButtons(true);
         disableUserButtons(true);
     }
 
