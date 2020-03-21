@@ -5,7 +5,7 @@ $(function(){
     $('.btn-search').click(function(){
         var searchKeyword = $('#txt-search').val();
 
-        search(searchKeyword);
+        search(1, 10, searchKeyword);
     });
 
     $('#txt-search').on('keypress',function(e){
@@ -16,8 +16,16 @@ $(function(){
 });    
 
 //실제로 서버에 요청을 보내주는 함수
-function search(searchKeyword){
+function search(page, perPage, searchKeyword){
+    if(typeof page !== 'number' || page < 1)
+        page = 1;
+
+    if(typeof perPage !== 'number' || page<=0)
+        perPage = 10;
+
     $.get(API_URL, {
+        page: page,
+        perPage: perPage,
         searchKeyword: searchKeyword
     }, function(data){
         var list = data.list;
@@ -40,5 +48,31 @@ function search(searchKeyword){
 
             $list.append($elem);
         }
+
+        showPaging(page);
     });
+}
+
+//페이지 영역 구현 함수
+function showPaging(page, perPage, total){
+    var $paging = $('.paging').empty();
+
+    var pervPage = pageStart -1;
+
+    if(prevPage<1)
+        prevPage = 1;
+    
+    var nextPage = pageEnd +1;
+    if(nextPage>totalPages)
+        nextPage = totalPages;
+
+    for(var i=perStart; i<=perEnd; i++){
+        var $elem = $('<a href = "javascript:search(' + i + ',' + perPange + ')">' + i + '</a>');
+
+        if(i===page){
+            $elem.addClass('current');
+        }
+
+        $paging.append($elem);
+    }
 }
