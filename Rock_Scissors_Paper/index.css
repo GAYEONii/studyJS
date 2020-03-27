@@ -1,3 +1,10 @@
 button{
-    padding : 10px 20px;
+    padding : 10px 40px;
+    text-align: center;
+    font-size: medium;
+}
+
+h1{
+    color: #e67e22;
+
 }

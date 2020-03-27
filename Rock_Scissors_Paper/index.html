@@ -6,10 +6,17 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <h1>가위 바위 보!</h1>
     <div>
-        <button onclick="onButtonClick('가위')">가위</button>
-        <button onclick="onButtonClick('바위')">바위</button>
-        <button onclick="onButtonClick('보')">보</button>
+        <button id='scissors' onclick="onButtonClick('가위')">
+            가위<img src="img/scissors.png" height=35/>
+        </button>
+        <button id='rock' onclick="onButtonClick('바위')">
+            바위<img src="img/rock.png" height=35/>
+        </button>
+        <button id='paper' onclick="onButtonClick('보')">
+            보<img src="img/paper.png" height=35/>
+        </button>
         <script src = "js/scripts.js"></script>
     </div>
 </body>
