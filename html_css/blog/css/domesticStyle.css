@@ -1,0 +1,47 @@
+body{
+    width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menubar{
+    border:none;
+    border:0px;
+    margin:0px;
+    padding:0px;
+    font-weight:bold;
+}
+
+.menubar ul{
+    margin:0;
+    padding:0;
+    height:50px;
+    background-color: #fad390;
+    list-style-type: none;
+}
+
+.menubar ul li a{
+    float: left;
+    margin: 10px 20px;
+    color: #e58e26;
+    display:block;
+    line-height:50px;
+    margin:0px;
+    padding:0px 25px;
+    text-align:center;
+    text-decoration: none;
+}
+
+.menubar ul li ul{
+    display: none;
+}
+
+
+
+.menubar li:hover ul {
+    display:block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
+    background: rgb(71,71,71);
+    border:0px;
+    color:#ffffff;
+    text-decoration:none;
+}
