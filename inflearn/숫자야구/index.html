@@ -3,9 +3,27 @@
 <head>
     <meta charset = "utf-8">
     <title>숫자야구</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <h1>숫자야구게임</h1>
-    <script src='숫자야구.js'></script>
+    <div class='main'>
+        <div class='bs-img'></div>
+        <div class='t1'>
+            <div><h1>숫</h1></div>
+            <div><h1>자</h1></div>
+            <div><h1>야</h1></div>
+            <div><h1>구</h1></div>
+        </div>
+        <div class="action">
+            <form>
+                <div id="chance">남은 기회 : 10번</div>
+                <input type="text"/>
+                <button id="click">입력</button>
+                <div class="result">0 스트라이크 0 볼</div>
+            </form>
+        </div>
+        <div class='bs-img'></div>
+    </div>
+    <script src='baseball.js'></script>
 </body>
 </html>
