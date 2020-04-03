@@ -12,3 +12,7 @@ div{
 #bonus{
     border: none;
 }
+
+input{
+    width: 100px;
+}

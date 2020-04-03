@@ -7,6 +7,14 @@ var lotto = Array(45).fill().map(function(e,index){
     return index+1;
 });
 
+var input = document.querySelectorAll('input');
+var inputNum = [];
+for(i=0; i<6; i++){
+    inputNum[i] = input[i].value;
+}
+console.log(inputNum);
+
+
 var shuffle = [];
 //splice(위치, 개수) : 위치로부터 개수만큼 배열에서 뽑기
 
@@ -16,7 +24,20 @@ while(lotto.length>0){
    shuffle.push(num);
 }
 
+
+//cf) slice() 함수 이용해서 6개 숫자 가져오는 방법
+/*var test = shuffle.slice(0,6);
+console.log(test);
+console.log(test.sort());*/
+
+
 //로또 6개 가져와서 숫자에 색 입히기
+function resultNum(i){
+    lottoNum[i].textContent = shuffle[i];
+    var colorNum = lottoNum[i].textContent;
+    color(colorNum, lottoNum[i]);
+}
+
 for(var i=0; i<6; i++){
     lottoNum[i].textContent = shuffle[i];
     var colorNum = lottoNum[i].textContent;
@@ -27,13 +48,13 @@ for(var i=0; i<6; i++){
 function color(element, lottoNum){
     if(element<=10){
         lottoNum.style.backgroundColor='red';
-    }else if(element>=11 && element<=20){
+    }else if(element<=20){
         lottoNum.style.backgroundColor='orange';
     }
-    else if(element>=21 && element<=30){
+    else if(element<=30){
         lottoNum.style.backgroundColor='yellow';
     }
-    else if(element>=31 && element<=40){
+    else if(element<=40){
         lottoNum.style.backgroundColor='blue';
     }else{
         lottoNum.style.backgroundColor='green';
@@ -44,3 +65,4 @@ function color(element, lottoNum){
 var bonusBall = shuffle[shuffle.length-1];
 lottoNum[lottoNum.length-1].textContent = bonusBall;
 color(bonusBall, lottoNum[lottoNum.length-1]);
+
