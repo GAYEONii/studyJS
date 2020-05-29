@@ -2,10 +2,12 @@
 for(var i=0; i<45; i++){
     lotto[i] = i+1;
 } */
+
 var lottoNum = document.querySelectorAll('div');
 var lotto = Array(45).fill().map(function(e,index){
     return index+1;
 });
+//map : callback(currentValue,index)
 
 var input = document.querySelectorAll('input');
 var inputNum = [];

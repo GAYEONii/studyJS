@@ -1,12 +1,17 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 body{
     width: 1250px;
     margin: 0 auto;
     background-image: url('img/background.jpg');
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .main{
     display: inline-block;
     padding: 10px;
+    position: relative;
+    
 }
 
 div.t1 div{
