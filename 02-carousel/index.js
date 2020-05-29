@@ -8,6 +8,24 @@ const ACTIVE_CLASS = 'active';
 const SIZE = slide_element[0].clientWidth;
 let count = 0;
 
+//자동 슬라이드
+function slide_event(){
+    const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
+    current_child.classList.remove(`${ACTIVE_CLASS}`);
+    if(count === 4){
+        slide_item.classList.add(`${ACTIVE_CLASS}`);
+        count = 0;
+    }
+    else{
+        const next_slide = current_child.nextElementSibling;
+        next_slide.classList.add(`${ACTIVE_CLASS}`);
+        count++;
+    }
+    btnDisplay();
+    slide_list.style.transition = "transform 0.7s";
+    slide_list.style.transform = 'translate3d(' + -(SIZE*count) + 'px, 0, 0)';
+}
+
 //이전버튼, 다음버튼 가리기
 function btnDisplay(){
     if(count === 0){
@@ -32,7 +50,6 @@ function prevBtn_event(e){
         prev_slide.classList.add(`${ACTIVE_CLASS}`);
         count --;
         slide_list.style.transition = "transform 0.7s";
-        const pixel = -(SIZE*count);
         slide_list.style.transform = 'translate3d(' + -(SIZE*count) + 'px, 0, 0)';
     }
 }
@@ -42,12 +59,11 @@ function nextBtn_event(e){
         const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
         current_child.classList.remove(`${ACTIVE_CLASS}`);
 
-        const prev_slide = current_child.nextElementSibling;
-        prev_slide.classList.add(`${ACTIVE_CLASS}`);
+        const next_slide = current_child.nextElementSibling;
+        next_slide.classList.add(`${ACTIVE_CLASS}`);
 
         count ++;
         slide_list.style.transition = "transform 0.7s";
-        const pixel = -(SIZE*count);
         slide_list.style.transform = 'translate3d(' + -(SIZE*count) + 'px, 0, 0)';
     }
 }
@@ -55,6 +71,8 @@ function nextBtn_event(e){
 //실행
 function slide(){
     slide_item.classList.add('active');
+    setInterval(slide_event, 2000);
+
     prevBtn.addEventListener('click', prevBtn_event);
     nextBtn.addEventListener('click', nextBtn_event);
 }
