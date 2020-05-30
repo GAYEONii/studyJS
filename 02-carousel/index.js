@@ -21,7 +21,6 @@ function slide_event(){
         next_slide.classList.add(`${ACTIVE_CLASS}`);
         count++;
     }
-    btnDisplay();
     slide_list.style.transition = "transform 0.7s";
     slide_list.style.transform = 'translate3d(' + -(SIZE*count) + 'px, 0, 0)';
 }
