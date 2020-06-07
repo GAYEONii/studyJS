@@ -12,9 +12,9 @@
 }
 
 .slide_list{
-    width: 5000px;
+    width: 7000px;
     height: 300px;
-    transform: translate3d(0px, 0, 0);
+    transform: translateX(-1000px);
 }
 
 .slide_item{
@@ -55,7 +55,7 @@ button{
     height: 80px;
     border: 0px solid #ffffff;
     color: #ffffff;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 #prevBtn{
@@ -70,3 +70,19 @@ button{
     transform: translateY(-50%);
 }
 
+.check_class{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.check_btn{
+    display: block;
+    float: left;
+    margin: 5px;
+    width: 15px;
+    height: 15px;
+    background-color: lightgray;
+    border-radius: 50%;
+}
