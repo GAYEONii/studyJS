@@ -1,158 +1,79 @@
-const slide_element = document.querySelectorAll('.slide_item');
-const first = document.querySelector('.slide:first-child');
-const last = document.querySelector('.slide:last-child');
-const slide_list = document.querySelector('.slide_list');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const first_slide = first.nextElementSibling;
-const last_slide = last.previousElementSibling;
-
+const view_slide = document.querySelector('.view_slide');
+const slide_item = document.querySelectorAll('.slide');
+const first = document.querySelector('.slide_item_1:first-child');
+const first_slide = first.parentElement;
 const check_btn = document.querySelectorAll('.check_btn');
 
 const ACTIVE_CLASS = 'active';
-const SIZE = slide_element[0].clientWidth;
-const S_LENGTH = slide_element.length - 2;
+const ACTIVE_BTN = 'active_btn';
+const SLIDE_LEN = slide_item.length - 2; //슬라이드 개수 5
+const SIZE = first.clientWidth; //한 슬라이드 사이즈 1000px
 
-let count = 1;
-check_btn[count-1].style.backgroundColor = 'gray';
+let count = 0;
 
-//prev,next,자동슬라이드 하나의 함수로 구현하기
-function slide_event_action(count){
-    const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
-    const next_slide = current_child.nextElementSibling;
-    if(count < 6){
-        check_btn[count-1].style.backgroundColor = 'lightgray';
-    }else{
-        check_btn[check_btn.length-1].style.backgroundColor = 'lightgray';
-    }
-
-    count++;
-
-    if(count < 6){
-        check_btn[count-1].style.backgroundColor = 'gray';
-    } else{
-        check_btn[0].style.backgroundColor = 'gray';
-    }
-   
-    slide_list.style.transition = "transform 0.6s";
-    slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-
-    current_child.classList.remove(`${ACTIVE_CLASS}`);
-    
-    if(count === S_LENGTH+1){
-        setTimeout(function (){
-            first_slide.classList.add(`${ACTIVE_CLASS}`);
-            count = 1;
-            
-            slide_list.style.removeProperty('transition');
-            slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-        },600);
-        
-    } 
-    else{
-        next_slide.classList.add(`${ACTIVE_CLASS}`);
-    }
+//처음 => 슬라이드 1이 표시
+function first_setting(){
+  count = 1;
+  first_slide.classList.add(`${ACTIVE_CLASS}`);
+  check_btn[count-1].classList.add(`${ACTIVE_BTN}`);
 }
 
-/*//자동 슬라이드
-function slide_event(){
-    
-    const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
-    const next_slide = current_child.nextElementSibling;
-    if(count < 6){
-        check_btn[count-1].style.backgroundColor = 'lightgray';
-    }else{
-        check_btn[check_btn.length-1].style.backgroundColor = 'lightgray';
-    }
-
-    count++;
-    if(count < 6){
-        check_btn[count-1].style.backgroundColor = 'gray';
-    } else{
-        check_btn[0].style.backgroundColor = 'gray';
-    }
-   
-    slide_list.style.transition = "transform 0.6s";
-    slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-
-    current_child.classList.remove(`${ACTIVE_CLASS}`);
-    
-    if(count === S_LENGTH+1){
-        setTimeout(function (){
-            first_slide.classList.add(`${ACTIVE_CLASS}`);
-            count = 1;
-            
-            slide_list.style.removeProperty('transition');
-            slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-        },600);
-        
-    } 
-    else{
-        next_slide.classList.add(`${ACTIVE_CLASS}`);
-    }
-    
-}
-*/
-
-//prevBtn 클릭
-function prevBtn_event(e){
-    count --;
-    
-    const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
-    current_child.classList.remove(`${ACTIVE_CLASS}`);
-
-    slide_list.style.transition = "transform 0.6s";
-    slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-    
-    if(count === -1){
-        last_slide.classList.add(`${ACTIVE_CLASS}`);
-        count = S_LENGTH;
-        slide_list.style.removeProperty('transition');
-        slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-    }
-    else{
-        const prev_slide = current_child.previousElementSibling;
-        prev_slide.classList.add(`${ACTIVE_CLASS}`);
-    }
-}
-/*
-//nextBtn 클릭
-function nextBtn_event(e){
-    count ++;
-
-    const current_child = document.querySelector(`.${ACTIVE_CLASS}`);
-    current_child.classList.remove(`${ACTIVE_CLASS}`);
-
-    slide_list.style.transition = "transform 0.6s";
-    slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-
-    if(count === 6){
-        first_slide.classList.add(`${ACTIVE_CLASS}`);
-        count = 0;
-        slide_list.style.removeProperty('transition');
-        slide_list.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
-    }
-    else{
-        const next_slide = current_child.nextElementSibling;
-        next_slide.classList.add(`${ACTIVE_CLASS}`);
-    }
-    
-}*/
-
-function slide_event(){
-    slide_event_action(count);
-}
-function nextBtn_event(){
-    slide_event_action(count);
-}
-//실행
-function slide(){
-    first_slide.classList.add(`${ACTIVE_CLASS}`);
-    setInterval(slide_event, 2000);
-    prevBtn.addEventListener('click', prevBtn_event);
-    nextBtn.addEventListener('click', nextBtn_event);
+//다음슬라이드
+function next_target(count){
+  const current_slide = document.querySelector(`.${ACTIVE_CLASS}`);
+  count++;
+  current_slide.classList.remove(`${ACTIVE_CLASS}`);
+  
+  //check_btn[count-1].classList.add(`${ACTIVE_BTN}`);
+  slide_event(count);
+  
+  if(count > SLIDE_LEN){
+    first_setting();
+    setTimeout(function () {
+      //first_slide.classList.add(`${ACTIVE_CLASS}`);
+      view_slide.style.removeProperty('transition');
+      view_slide.style.transform = 'translateX(' + -(SIZE * count) + 'px)';
+    }, 600);
+  }
+  const next_slide = slide_item[count];
+  next_slide.classList.add(`${ACTIVE_CLASS}`);
+  
+  return count;
 }
 
-slide();
+function next_event(){
+  
+  //check_btn[count-1].classList.remove(`${ACTIVE_BTN}`);
+  count = next_target(count);
+  console.log(count);
+}
 
-//함수 만들어서 코드 리펙토링하기
+function prev_target(count){
+  const current_slide = document.querySelector(`.${ACTIVE_CLASS}`);
+  const prev_slide = current_slide.previousElementSibling;
+  current_slide.classList.remove(`${ACTIVE_CLASS}`);
+  check_btn[count].classList.remove(`${ACTIVE_BTN}`);
+
+  count--;
+  return count;
+}
+
+
+
+function prev_event(){
+  count = prev_target(count);
+  slide_event(count);
+}
+
+function slide_event(count){
+  view_slide.style.transition = 'transform 0.6s';
+  view_slide.style.transform = 'translateX(' + -(SIZE*count) + 'px)';
+}
+
+
+function init(){
+  first_setting();
+  setInterval(next_event, 2000);
+}
+
+init();

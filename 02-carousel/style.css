@@ -1,89 +1,97 @@
 @charset "utf-8";
 
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-.main{
-    width: 1000px;
-    height: 300px;
-    overflow: hidden;
-    position: relative;
+.main {
+  width: 1000px;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
 }
 
-.slide_list{
-    width: 7000px;
-    height: 300px;
-    transform: translateX(-1000px);
+.view_slide {
+  width: 7000px;
+  height: 300px;
+  transform: translateX(-1000px);
 }
 
-.slide_item{
-    display: block;
-    float: left;
-    width: 1000px;
-    height: 300px;
-    font-size: 60px;
-    color: #ffffff;
-    text-decoration: none;
-    text-align: center;
-    padding-top: 110px;
-    border-radius: 20px;
+.slide_a{
+  display: block;
+  float: left;
+  width: 1000px;
+  height: 300px;
+  font-size: 60px;
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+  padding-top: 110px;
+  border-radius: 20px;
 }
 
-.slide_item_1{
-    background-color: #C5E1A5;
-}
-.slide_item_2{
-    background-color: #AED581;
-}
-.slide_item_3{
-    background-color: #9CCC65;
-}
-.slide_item_4{
-    background-color: #7CB342;
-}
-.slide_item_5{
-    background-color: #558B2F;
+.slide_item_1 {
+  background-color: #C5E1A5;
 }
 
-button{
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0);
-    font-size: 50px;
-    border-radius: 10px;
-    text-align: center;
-    width: 60px;
-    height: 80px;
-    border: 0px solid #ffffff;
-    color: #ffffff;
-    cursor: pointer;
+.slide_item_2 {
+  background-color: #AED581;
 }
 
-#prevBtn{
-    top: 50%;
-    left: 0px;
-    transform: translateY(-50%);
+.slide_item_3 {
+  background-color: #9CCC65;
 }
 
-#nextBtn{
-    top: 50%;
-    right: 0px;
-    transform: translateY(-50%);
+.slide_item_4 {
+  background-color: #7CB342;
 }
 
-.check_class{
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translateX(-50%);
+.slide_item_5 {
+  background-color: #558B2F;
 }
 
-.check_btn{
-    display: block;
-    float: left;
-    margin: 5px;
-    width: 15px;
-    height: 15px;
-    background-color: lightgray;
-    border-radius: 50%;
+button {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 50px;
+  border-radius: 10px;
+  text-align: center;
+  width: 60px;
+  height: 80px;
+  border: 0px solid #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#prevBtn {
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+}
+
+#nextBtn {
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+}
+
+.check_class {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.check_btn {
+  display: block;
+  float: left;
+  margin: 5px;
+  width: 15px;
+  height: 15px;
+  background-color: lightgray;
+  border-radius: 50%;
+}
+
+.active_btn {
+  background-color: gray;
 }
