@@ -21,3 +21,17 @@ export function validateAllocatedOrders(driverData, orders) {
   })
   return checkOrders
 }
+
+export function timeToNum(time){
+  let tmp = time.split(':');
+  let num = parseInt(tmp[0]*60) + parseInt(tmp[1]);
+  return num;
+}
+
+export function numToTime(num){
+  let hh = parseInt(num/60);
+  let mm = num%60;
+  const time = `${hh<10?`0${hh}`:hh}:${mm<10?`0${mm}`:mm}`;
+
+  return time;
+}
