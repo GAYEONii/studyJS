@@ -58,7 +58,8 @@ export default class Dashboard {
 
           //배달완료함
           if(lastOrder.deliveredAt !== ''){
-
+            driver.lastTime = lastOrder.deliveredAt;
+            driver.lastPosition = lastOrder.deliveryPosition;
           }
           //배달지로 이동중 
           else if(lastOrder.pickedUpAt !== ''){
@@ -66,6 +67,8 @@ export default class Dashboard {
             const distance = x+y;
             let time = numToTime(timeToNum('13:00') + distance);
             lastOrder.deliveredAt = time;
+            driver.lastTime = lastOrder.deliveredAt;
+            driver.position = lastOrder.deliveryPosition;
           }
           //식당으로 가는중
           else{
@@ -75,12 +78,18 @@ export default class Dashboard {
             const distance = x+y;
             let time = numToTime(timeToNum('13:00') + distance);
             lastOrder.pickedUpAt = time;
-
+            
             //식당 -> 배달지
-            const [xx,yy] = [Math.abs(currentPlace[0] - lastOrder.deliveryPosition[0]), Math.abs(currentPosition[1] - lastOrder.deliveryPosition[1])];
+            const [xx,yy] = [Math.abs(currentPlace[0] - lastOrder.deliveryPosition[0]), Math.abs(currentPlace[1] - lastOrder.deliveryPosition[1])];
             time = numToTime(timeToNum(time) + (xx+yy));
             lastOrder.deliveredAt = time;
+            driver.lastTime = lastOrder.deliveredAt;
+            driver.position = lastOrder.deliveryPosition;
           }
+        }
+        else{
+          driver.lastTime = '13:00';
+          driver.position = [56, 56];
         }
           return driver;
       });
@@ -90,9 +99,59 @@ export default class Dashboard {
       newOrders.sort((a,b) => b.price - a.price);
 
       newOrders.forEach(order => {
+        const min = {
+          id: 0,
+          distance: 10000,
+        };
+        
+        const placePosition = this.data.places.find(place => place.id === order.placeId).position;
+
+        this.driverData.forEach(driver => {
+          let distance = Math.abs(placePosition[0] - driver.position[0]) + Math.abs(placePosition[1] - driver.position[1]);
+          if(driver.reservedOrders.length === 0){
+            min.id = driver.id;
+            min.distance = -1;
+          }
+          
+          if(min.distance > distance){
+            min.distance = distance;
+            min.id = driver.id;
+          }
+        });
+        
+        const selectDriver = this.driverData.find(driver => driver.id === min.id);
+        selectDriver.position = order.deliveryPosition;
+        //reservedOrders에 넣기
+        selectDriver.reservedOrders.push(order);
         
       });
+      
+      //무료금액 계산하기
+      this.driverData.forEach(driver => {
+        let lastTime = driver.lastTime;
+        let position = driver.position;
+        driver.reservedOrders.forEach(order => {
+          const placePosition = this.data.places.find(place => place.id === order.placeId).position;
 
+          //(13:00부터) 픽업시간 구하기
+          let distance = Math.abs(position[0] - placePosition[0]) + Math.abs(position[1] - placePosition[1]);
+          order.pickedUpAt = numToTime(timeToNum(lastTime) + distance);
+          //배달지 도착시간구하기
+          distance = Math.abs(placePosition[0] - order.deliveryPosition[0]) + Math.abs(placePosition[1] - order.deliveryPosition[1]);
+          order.deliveredAt = numToTime(distance + timeToNum(order.pickedUpAt));
+
+          lastTime = order.deliveredAt;
+          position = order.deliveryPosition;
+          //무료금액 계산
+          const time = timeToNum(order.deliveredAt) - timeToNum(order.orderedAt);
+          
+          if(time>60){
+            this.freeAmount += order.price;
+          }; 
+
+          
+        });
+      });  
 
       /*const getNextDriver = (driverData=>{
         let i=0;
